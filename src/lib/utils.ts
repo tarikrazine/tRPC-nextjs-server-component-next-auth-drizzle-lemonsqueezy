@@ -8,9 +8,9 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function getDomain() {
-  const protocol = env.NEXT_PUBLIC_VERCEL_ENV === "production"
+  const protocol = process.env.NEXT_PUBLIC_VERCEL_ENV === "production"
     ? "https"
     : "http";
 
-  return `${protocol}://${env.NEXT_PUBLIC_VERCEL_ENV}`;
+  return `${protocol}://${process.env.NEXT_PUBLIC_VERCEL_URL}`;
 }
