@@ -1,1 +1,1 @@
-Boilerplate TRPC with Next.js 13
+Boilerplate tRPC next.js server components next-auth drizzle
