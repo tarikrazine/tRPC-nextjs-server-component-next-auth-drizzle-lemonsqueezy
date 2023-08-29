@@ -27,18 +27,8 @@ import { db } from "@/db";
 export const serverClient = appRouter.createCaller({
   //@ts-ignore
   links: [
-    loggerLink({
-      enabled: () => true,
-    }),
     httpBatchLink({
       url: `${getDomain()}/api/trpc`,
-      fetch: async (input, init?) => {
-        const fetch = getFetch();
-        return fetch(input, {
-          ...init,
-          credentials: "include",
-        });
-      },
     }),
   ],
   session: {
