@@ -71,7 +71,6 @@ function Login() {
   });
 
   async function loginWithGoogle() {
-    console.log("Google");
     setIsLoading((prev) => (prev = { ...prev, google: !prev.google }));
     try {
       await signIn("google");
@@ -83,7 +82,6 @@ function Login() {
   }
 
   async function loginWithGithub() {
-    console.log("Github");
 
     setIsLoading((prev) => (prev = { ...prev, github: !prev.github }));
     try {
@@ -96,20 +94,14 @@ function Login() {
   }
 
   async function onSubmit(values: FormSchemaInput) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
-    // console.log(form.formState.isSubmitting);
 
     setIsLoading((prev) => (prev = { ...prev, credential: !prev.credential }));
     try {
-      const user = await signIn("credentials", {
+      await signIn("credentials", {
         email: values.email,
         password: values.password,
         redirect: false,
       });
-
-      console.log(user)
 
       router.push("/");
     } catch (error) {

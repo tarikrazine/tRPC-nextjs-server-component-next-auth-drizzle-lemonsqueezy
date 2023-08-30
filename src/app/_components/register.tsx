@@ -101,7 +101,6 @@ function Register() {
   });
 
   async function loginWithGoogle() {
-    console.log("Google");
     setIsLoading((prev) => (prev = { ...prev, google: !prev.google }));
     try {
       await signIn("google");
@@ -113,7 +112,6 @@ function Register() {
   }
 
   async function loginWithGithub() {
-    console.log("Github");
 
     setIsLoading((prev) => (prev = { ...prev, github: !prev.github }));
     try {

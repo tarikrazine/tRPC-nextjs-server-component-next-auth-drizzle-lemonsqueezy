@@ -18,7 +18,9 @@ function Header() {
           <Link href='/register'>
             <Button size={"lg"}><UserPlus2 className="mr-2" /> <span>Create Account</span></Button>
           </Link>
+          <a href="https://github.com/tarikrazine/tRPC-nextjs-server-component-next-auth-drizzle" target="_blank">
           <Button variant={"secondary"} size={"lg"} >Github</Button>
+          </a>
         </div>
         </div>
     </div>
