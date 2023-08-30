@@ -12,7 +12,6 @@ export const notesRouter = router({
       const { note } = opts.input;
     }),
   list: protectedProcedure.query(async ({ ctx }) => {
-    console.log(ctx);
     return ["First note", "Second note"];
   }),
 });

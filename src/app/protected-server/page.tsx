@@ -6,7 +6,7 @@ import { getSession } from "next-auth/react"
 import { serverClient } from "../_trpc/serverClient"
 
 export default async function ProtectedPage() {
-    const session = getSession({
+    const session = await getSession({
         req: {
           headers: Object.fromEntries(headers().entries()),
         },
@@ -16,11 +16,11 @@ export default async function ProtectedPage() {
         return redirect("/login")
     }
 
-    const notes = await serverClient.notes.list()
+    const notes = await (await serverClient()).notes.list()
 
     console.log(notes)
     
     return (
-        <div>Protected Route</div>
+        <div>Protected Server Route</div>
     )
 }

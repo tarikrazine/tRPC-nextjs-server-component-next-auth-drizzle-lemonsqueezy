@@ -7,7 +7,7 @@ import { getFetch, httpBatchLink, loggerLink } from "@trpc/client";
 import superjson from 'superjson'
 
 import { trpc } from "./client";
-import { getDomain } from "@/lib/utils";
+import { getBaseUrl } from "@/lib/utils";
 
 interface TRPCProviderProps {
   children: React.ReactNode;
@@ -22,14 +22,15 @@ function TRPCProvider(props: TRPCProviderProps) {
         //   enabled: () => true,
         // }),
         httpBatchLink({
-          url: `${getDomain()}/api/trpc`,
-          // fetch: async (input, init?) => {
-          //   const fetch = getFetch();
-          //   return fetch(input, {
-          //     ...init,
-          //     credentials: "include",
-          //   });
-          // },
+          url: `${getBaseUrl()}/api/trpc`,
+          fetch: async (input, init?) => {
+            const fetch = getFetch();
+            return fetch(input, {
+              ...init,
+              credentials: "include",
+
+            });
+          },
         }),
       ],
       transformer: superjson,

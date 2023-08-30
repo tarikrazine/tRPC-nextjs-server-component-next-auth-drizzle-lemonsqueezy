@@ -30,8 +30,6 @@ export async function createContext() {
     },
   }) as Session;
 
-  console.log("========", session);
-
   const ctx = await createContextInner({ session });
 
   return {
