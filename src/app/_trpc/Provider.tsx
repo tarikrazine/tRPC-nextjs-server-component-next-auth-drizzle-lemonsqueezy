@@ -18,18 +18,18 @@ function TRPCProvider(props: TRPCProviderProps) {
   const [trpcClient] = useState(() =>
     trpc.createClient({
       links: [
-        loggerLink({
-          enabled: () => true,
-        }),
+        // loggerLink({
+        //   enabled: () => true,
+        // }),
         httpBatchLink({
           url: `${getDomain()}/api/trpc`,
-          fetch: async (input, init?) => {
-            const fetch = getFetch();
-            return fetch(input, {
-              ...init,
-              credentials: "include",
-            });
-          },
+          // fetch: async (input, init?) => {
+          //   const fetch = getFetch();
+          //   return fetch(input, {
+          //     ...init,
+          //     credentials: "include",
+          //   });
+          // },
         }),
       ],
       transformer: superjson,
