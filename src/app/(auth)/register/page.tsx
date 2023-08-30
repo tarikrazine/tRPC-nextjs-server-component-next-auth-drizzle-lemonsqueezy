@@ -1,8 +1,5 @@
-import { getServerSession } from "next-auth";
-
 import Register from "@/app/_components/register";
 
-import { authOptions } from "@/app/api/auth/[...nextauth]/_options";
 import { redirect } from "next/navigation";
 import { getSession } from "next-auth/react";
 import { headers } from "next/headers";

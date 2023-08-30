@@ -18,9 +18,9 @@ function TRPCProvider(props: TRPCProviderProps) {
   const [trpcClient] = useState(() =>
     trpc.createClient({
       links: [
-        // loggerLink({
-        //   enabled: () => true,
-        // }),
+        loggerLink({
+          enabled: () => true,
+        }),
         httpBatchLink({
           url: `${getBaseUrl()}/api/trpc`,
           fetch: async (input, init?) => {

@@ -1,15 +1,10 @@
 import { redirect } from "next/navigation"
 
-import { getServerSession } from "next-auth"
-
-import { authOptions } from "@/app/api/auth/[...nextauth]/_options"
-
 import Logout from "@/app/_components/logout"
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/app/_components/ui/card";

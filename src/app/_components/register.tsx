@@ -37,7 +37,6 @@ import { trpc } from "../_trpc/client";
 import { cn } from "@/lib/utils";
 import TermsDialog from "./termsPrivacyDialog";
 import { privacy, terms } from "@/termsPrivacy";
-import { RedirectType } from "next/dist/client/components/redirect";
 
 const formSchema = z
   .object({

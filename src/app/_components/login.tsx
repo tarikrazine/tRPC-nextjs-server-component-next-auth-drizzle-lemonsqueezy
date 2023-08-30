@@ -2,6 +2,9 @@
 
 import { useEffect, useState } from "react";
 
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -21,15 +24,12 @@ import {
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@/app/_components/ui/form";
 import { cn } from "@/lib/utils";
-import { useRouter } from "next/navigation";
-import Link from "next/link";
 
 const formSchema = z.object({
   email: z.string().email(),

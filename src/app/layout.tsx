@@ -1,12 +1,11 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { Analytics } from "@vercel/analytics/react";
 
 import TRPCProvider from "@/app/_trpc/Provider";
 import { ThemeProvider } from "@/app/_components/providers/theme-provider";
-import { ModeToggle } from "@/app/_components/reusable/modeToggle";
 import { cn } from "@/lib/utils";
-import Header from "./_components/header";
 import NavBar from "./_components/navbar";
 import AuthProvider from "./_components/providers/AuthProvider";
 import { getSession } from "next-auth/react";
@@ -24,13 +23,12 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-
   const session = await getSession({
     req: {
       headers: Object.fromEntries(headers().entries()),
     },
   });
-  
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body
@@ -48,7 +46,10 @@ export default async function RootLayout({
             >
               <div className="flex min-h-screen flex-col">
                 <NavBar />
-                <main className="flex-1 flex">{children}</main>
+                <main className="flex-1 flex">
+                  {children}
+                  <Analytics />
+                </main>
               </div>
             </ThemeProvider>
           </AuthProvider>

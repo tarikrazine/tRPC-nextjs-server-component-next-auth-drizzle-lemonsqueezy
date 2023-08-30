@@ -1,11 +1,9 @@
 import { redirect } from "next/navigation";
-import { cookies, headers } from "next/headers";
+import { headers } from "next/headers";
 
-import { getServerSession } from "next-auth";
 
 import Login from "@/app/_components/login";
 
-import { authOptions } from "@/app/api/auth/[...nextauth]/_options";
 import { getSession } from "next-auth/react";
 
 export default async function LoginPage() {

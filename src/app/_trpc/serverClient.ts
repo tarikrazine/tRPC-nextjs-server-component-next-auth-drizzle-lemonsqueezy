@@ -1,5 +1,3 @@
-import { getServerSession } from "next-auth/next";
-
 import { httpBatchLink } from "@trpc/client";
 import superjson from "superjson";
 
