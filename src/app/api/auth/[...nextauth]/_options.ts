@@ -89,7 +89,7 @@ export const authOptions = (request: NextRequest, context: Context) => {
         }),
       ],
       callbacks: {
-        async jwt({ token, user, session }) {
+        async jwt({ token, user }) {
           return token;
         },
         async session({ token, user, session }) {
