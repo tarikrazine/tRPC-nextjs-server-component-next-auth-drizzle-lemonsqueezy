@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-const SPagination = z.object({
+const Pagination = z.object({
   currentPage: z.number(),
   from: z.number(),
   lastPage: z.number(),
@@ -9,27 +9,27 @@ const SPagination = z.object({
   total: z.number(),
 });
 
-const SMeta = z.object({
-  page: SPagination,
+const Meta = z.object({
+  page: Pagination,
 });
 
-const SJsonapi = z.object({
+const Jsonapi = z.object({
   version: z.string(),
 });
 
-const SLinks = z.object({
+const Links = z.object({
   first: z.string(),
   last: z.string(),
 });
 
-const SProductRelationships = z.object({
+const ProductRelationships = z.object({
   links: z.object({
     related: z.string(),
     self: z.string(),
   }),
 });
 
-const SAttributes = z.object({
+const Attributes = z.object({
   price: z.number(),
   is_subscription: z.boolean(),
   interval: z.string(),
@@ -58,23 +58,23 @@ const SAttributes = z.object({
   test_mode: z.boolean().optional(),
 });
 
-const SVariants = z.object({
+const Variants = z.object({
   type: z.string(),
   id: z.string(),
-  attributes: SAttributes,
+  attributes: Attributes,
   relationships: z.object({
-    product: SProductRelationships,
+    product: ProductRelationships,
   }),
   links: z.object({
     self: z.string(),
   }),
 });
 
-export const SLemonSqueezyRequest = z.object({
-  meta: SMeta,
-  jsonapi: SJsonapi,
-  links: SLinks,
-  data: z.array(SVariants),
+export const productVariantSchema = z.object({
+  meta: Meta,
+  jsonapi: Jsonapi,
+  links: Links,
+  data: z.array(Variants),
 });
 
-export type TLemonSqueezyRequest = z.infer<typeof SLemonSqueezyRequest>;
+export type ProductVariantSchema = z.infer<typeof productVariantSchema>;

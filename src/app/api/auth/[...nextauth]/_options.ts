@@ -90,9 +90,30 @@ export const authOptions = (request: NextRequest, context: Context) => {
       ],
       callbacks: {
         async jwt({ token, user }) {
-          return token;
+          const [userDb] = await db
+            .select({
+              id: users.id,
+              name: users.name,
+              email: users.email,
+              image: users.image,
+            })
+            .from(users).where(eq(users.email, token.email));
+
+          return {
+            id: userDb.id,
+            name: userDb.name,
+            email: userDb.email,
+            image: userDb.image,
+          };
         },
         async session({ token, user, session }) {
+          if (token) {
+            session.user.id = token.id;
+            session.user.name = token.name;
+            session.user.email = token.email;
+            session.user.image = token.image;
+          }
+
           return session;
         },
       },

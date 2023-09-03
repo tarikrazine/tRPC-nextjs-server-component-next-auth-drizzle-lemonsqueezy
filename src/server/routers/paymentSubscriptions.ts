@@ -3,9 +3,9 @@ import { z } from "zod";
 import { protectedProcedure, publicProcedure, router } from "../trpc";
 import { env } from "@/env.mjs";
 import {
-  SLemonSqueezyRequest,
-  TLemonSqueezyRequest,
-} from "@/lib/zod-lemon-squeezy";
+  ProductVariantSchema,
+  productVariantSchema,
+} from "@/lib/productVariantSchema";
 
 const lemonSqueezyBaseUrl = "https://api.lemonsqueezy.com/v1";
 const lemonSqueezyApiKey = env.LEMON_SQUEEZY_API_KEY;
@@ -20,7 +20,10 @@ function createHeaders() {
   return headers;
 }
 
-function createRequestOptions(method: string, headers: Headers): RequestInit {
+function createRequestOptions(
+  method: string,
+  headers: Headers,
+): RequestInit {
   return {
     method,
     headers,
@@ -52,9 +55,9 @@ export const paymentSubscriptions = router({
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      const data = await response.json() as TLemonSqueezyRequest;
+      const data = (await response.json()) as ProductVariantSchema;
 
-      const parsedData = SLemonSqueezyRequest.parse(data);
+      const parsedData = productVariantSchema.parse(data);
 
       return parsedData;
     }),
