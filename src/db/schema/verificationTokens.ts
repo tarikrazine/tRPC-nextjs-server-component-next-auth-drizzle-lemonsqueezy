@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { pgTable, primaryKey, text, timestamp } from "drizzle-orm/pg-core";
 
 export const verificationTokens = pgTable(

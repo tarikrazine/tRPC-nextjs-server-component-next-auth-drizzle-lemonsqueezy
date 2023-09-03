@@ -1,4 +1,3 @@
-//@ts-nocheck
 import { InferInsertModel, InferSelectModel } from "drizzle-orm";
 import { pgTable, text, timestamp } from "drizzle-orm/pg-core";
 

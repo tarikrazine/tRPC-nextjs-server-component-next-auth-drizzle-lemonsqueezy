@@ -33,7 +33,7 @@ function TRPCProvider(props: TRPCProviderProps) {
           },
         }),
       ],
-      transformer: superjson,
+      //transformer: superjson,
     })
   );
 

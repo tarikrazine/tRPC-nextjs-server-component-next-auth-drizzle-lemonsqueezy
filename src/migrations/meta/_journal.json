@@ -15,6 +15,13 @@
       "when": 1693340602474,
       "tag": "0001_wonderful_proteus",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1693756476245,
+      "tag": "0002_classy_peter_quill",
+      "breakpoints": true
     }
   ]
 }

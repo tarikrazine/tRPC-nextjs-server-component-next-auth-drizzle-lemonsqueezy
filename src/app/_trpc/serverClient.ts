@@ -24,6 +24,6 @@ export const serverClient = async () => {
     ],
     session: session,
     drizzle: db,
-    transformer: superjson,
+    //transformer: superjson,
   });
 };

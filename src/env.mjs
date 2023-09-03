@@ -13,6 +13,8 @@ export const env = createEnv({
     NODE_ENV: z.string().min(1),
     LEMON_SQUEEZY_API_KEY: z.string().min(1),
     PRODUCT_ID: z.string().min(1),
+    POST_HOG: z.string().min(1),
+    LEMON_SQUEEZY_SIGNING_SECRET: z.string().min(1),
   },
   client: {
     //NEXT_PUBLIC_PUBLISHABLE_KEY: z.string().min(1),
@@ -31,6 +33,8 @@ export const env = createEnv({
     LEMON_SQUEEZY_API_KEY: process.env.LEMON_SQUEEZY_API_KEY,
     NEXT_PUBLIC_PRODUCT_ID: process.env.NEXT_PUBLIC_PRODUCT_ID,
     PRODUCT_ID: process.env.PRODUCT_ID,
+    POST_HOG: process.env.POST_HOG,
+    LEMON_SQUEEZY_SIGNING_SECRET: process.env.LEMON_SQUEEZY_SIGNING_SECRET
   },
   // For Next.js >= 13.4.4, you only need to destructure client variables:
   // experimental__runtimeEnv: {

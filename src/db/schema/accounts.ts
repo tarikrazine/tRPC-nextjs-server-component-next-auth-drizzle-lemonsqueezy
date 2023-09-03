@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { integer, pgTable, primaryKey, text } from "drizzle-orm/pg-core";
 import type { AdapterAccount } from "@auth/core/adapters";
 

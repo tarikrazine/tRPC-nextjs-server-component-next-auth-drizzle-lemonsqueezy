@@ -9,7 +9,7 @@ import { eq } from "drizzle-orm";
 // For instance, the use of a t variable
 // is common in i18n libraries.
 const t = initTRPC.context<Context>().create({
-  transformer: superjson,
+  //transformer: superjson,
 });
 
 const isAuthed = t.middleware(async ({ next, ctx }) => {
