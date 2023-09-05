@@ -42,23 +42,29 @@ export async function POST(request: Request) {
   const type = body.data.type;
 
   if (type === "subscriptions") {
-    const parsedBody = subscriptionWebhookRequest.parse(body);
+    const parsedBody = subscriptionWebhookRequest.safeParse(body);
+
+    if (!parsedBody.success) {
+      return NextResponse.json({
+        "message": "Can't parse body",
+      }, { status: 404 });
+    }
 
     postHog.identify({
-      distinctId: parsedBody.meta.customData.userId,
+      distinctId: parsedBody.data.meta.customData.userId,
       properties: {
         subscription: {
-          id: parsedBody.data.id,
-          ...parsedBody.data.attributes,
+          id: parsedBody.data.data.id,
+          ...parsedBody.data.data.attributes,
         },
       },
     });
 
-    if (parsedBody.meta.eventName === "subscription_created") {
+    if (parsedBody.data.meta.eventName === "subscription_created") {
       const [insertData] = await db.insert(subscriptions).values({
-        userId: parsedBody.meta.customData.userId,
-        id: parsedBody.data.id,
-        ...parsedBody.data.attributes,
+        userId: parsedBody.data.meta.customData.userId,
+        id: parsedBody.data.data.id,
+        ...parsedBody.data.data.attributes,
       }).returning();
 
       console.log(`Inserted subscription with id ${insertData.id}`);
@@ -68,11 +74,11 @@ export async function POST(request: Request) {
       });
     }
 
-    if (parsedBody.meta.eventName === "subscription_updated") {
+    if (parsedBody.data.meta.eventName === "subscription_updated") {
       const [updatedData] = await db.update(subscriptions).set({
-        id: parsedBody.data.id,
-        ...parsedBody.data.attributes,
-      }).where(eq(subscriptions.id, parsedBody.data.id)).returning();
+        id: parsedBody.data.data.id,
+        ...parsedBody.data.data.attributes,
+      }).where(eq(subscriptions.id, parsedBody.data.data.id)).returning();
 
       console.log(`Updated subscription with id: ${updatedData.id}`);
 
