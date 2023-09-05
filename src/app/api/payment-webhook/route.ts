@@ -41,6 +41,8 @@ export async function POST(request: Request) {
 
   const type = body.data.type;
 
+  console.log("type", type);
+
   if (type === "subscriptions") {
     const parsedBody = await subscriptionWebhookRequest.safeParseAsync(body);
 
@@ -50,15 +52,7 @@ export async function POST(request: Request) {
       }, { status: 404 });
     }
 
-    postHog.identify({
-      distinctId: parsedBody.data.meta.customData.userId,
-      properties: {
-        subscription: {
-          id: parsedBody.data.data.id,
-          ...parsedBody.data.data.attributes,
-        },
-      },
-    });
+    console.log("eventName", parsedBody.data.meta.eventName);
 
     if (parsedBody.data.meta.eventName === "subscription_created") {
       const [insertData] = await db.insert(subscriptions).values({
