@@ -78,79 +78,86 @@ export const paymentSubscriptions = router({
 
       return parsedData;
     }),
-  subscriptionWebhook: publicProcedure.input(subscriptionWebhookRequest)
+  subscriptionWebhook: publicProcedure.input(
+    /*subscriptionWebhookRequest*/ z.object({ hello: z.string() }),
+  )
     .mutation(async ({ ctx, input }) => {
       const rawInput = JSON.stringify(input);
+      console.log(ctx.req);
 
       const secret = env.LEMON_SQUEEZY_SIGNING_SECRET;
 
       const xSignature = headers().get("X-Signature");
 
-      const hmac = crypto.createHmac("sha256", secret);
+      console.log("xSignature ", xSignature);
 
-      hmac.update(rawInput);
-      const digest = hmac.digest("hex");
+      // const hmac = crypto.createHmac("sha256", secret);
 
-      if (
-        !xSignature ||
-        !crypto.timingSafeEqual(
-          Buffer.from(digest, "hex"),
-          Buffer.from(xSignature, "hex"),
-        )
-      ) {
-        throw new TRPCError({
-          message: "Invalid signature.",
-          code: "FORBIDDEN",
-        });
-      }
+      // hmac.update(rawInput);
+      // const digest = hmac.digest("hex");
 
-      const type = input.data.type;
-
-      console.log("type", type, "eventName", input.meta.eventName);
-
-      if (type === "subscriptions") {
-        posthog.identify({
-          distinctId: input.meta.customData.userId,
-          properties: {
-            subscription: {
-              id: input.data.id,
-              ...input.data.attributes,
-            },
-          },
-        });
-
-        if (input.meta.eventName === "subscription_created") {
-          const insertedData = await db.insert(subscriptions).values({
-            userId: input.meta.customData.userId,
-            id: input.data.id,
-            ...input.data.attributes,
-          }).returning();
-
-          console.log(`Inserted subscription with id ${insertedData[0].id}`);
-
-          return JSON.stringify({ status: "ok" });
-        }
-
-        if (input.meta.eventName === "subscription_updated") {
-          const updatedData = await db.update(subscriptions).set({
-            id: input.data.id,
-
-            ...input.data.attributes,
-          }).where(eq(
-            subscriptions.id,
-            input.data.id,
-          )).returning();
-
-          console.log(`Updated subscription with id: ${updatedData[0].id}`);
-
-          return JSON.stringify({ status: "ok" });
-        }
-      }
-
-      // posthog.identify({
-
-      // })
+      // if (
+      //   !xSignature ||
+      //   !crypto.timingSafeEqual(
+      //     Buffer.from(digest, "hex"),
+      //     Buffer.from(xSignature, "hex"),
+      //   )
+      // ) {
+      //   throw new TRPCError({
+      //     message: "Invalid signature.",
+      //     code: "FORBIDDEN",
+      //   });
+      // }
 
       return input;
+
+      // const type = input.data.type;
+
+      // console.log("type", type, "eventName", input.meta.eventName);
+
+      // if (type === "subscriptions") {
+      //   posthog.identify({
+      //     distinctId: input.meta.customData.userId,
+      //     properties: {
+      //       subscription: {
+      //         id: input.data.id,
+      //         ...input.data.attributes,
+      //       },
+      //     },
+      //   });
+
+      //   if (input.meta.eventName === "subscription_created") {
+      //     const insertedData = await db.insert(subscriptions).values({
+      //       userId: input.meta.customData.userId,
+      //       id: input.data.id,
+      //       ...input.data.attributes,
+      //     }).returning();
+
+      //     console.log(`Inserted subscription with id ${insertedData[0].id}`);
+
+      //     return JSON.stringify({ status: "ok" });
+      //   }
+
+      //   if (input.meta.eventName === "subscription_updated") {
+      //     const updatedData = await db.update(subscriptions).set({
+      //       id: input.data.id,
+
+      //       ...input.data.attributes,
+      //     }).where(eq(
+      //       subscriptions.id,
+      //       input.data.id,
+      //     )).returning();
+
+      //     console.log(`Updated subscription with id: ${updatedData[0].id}`);
+
+      //     return JSON.stringify({ status: "ok" });
+      //   }
+      // }
+
+      // // posthog.identify({
+
+      // // })
+
+      // return input;
     }),
 });

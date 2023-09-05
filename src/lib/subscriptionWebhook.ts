@@ -114,3 +114,7 @@ export const subscriptionWebhookRequest = z
     meta: Meta,
   })
   .transform(camelize);
+
+export type SubscriptionWebhookRequest = z.infer<
+  typeof subscriptionWebhookRequest
+>;

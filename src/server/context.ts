@@ -11,9 +11,12 @@ interface CreateInnerContextOptions extends Partial<CreateNextContextOptions> {
 }
 
 export async function createContextInner(opts: CreateInnerContextOptions) {
+  const req = opts.req;
+  console.log("context", req);
   return {
     drizzle: db,
     session: opts.session,
+    req,
   };
 }
 
