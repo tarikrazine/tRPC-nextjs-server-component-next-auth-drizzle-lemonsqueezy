@@ -90,9 +90,9 @@ const Data = z
   .object({
     id: z.coerce.number(),
     type: z.string(),
-    links: Links,
+    //links: Links,
     attributes: Attributes,
-    relationships: Relationships,
+    //relationships: Relationships,
   })
   .transform(camelize);
 
