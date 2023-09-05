@@ -42,7 +42,7 @@ export async function POST(request: Request) {
   const type = body.data.type;
 
   if (type === "subscriptions") {
-    const parsedBody = subscriptionWebhookRequest.safeParse(body);
+    const parsedBody = await subscriptionWebhookRequest.safeParseAsync(body);
 
     if (!parsedBody.success) {
       return NextResponse.json({
