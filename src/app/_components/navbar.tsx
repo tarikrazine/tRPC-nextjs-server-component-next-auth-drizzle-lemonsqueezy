@@ -13,18 +13,11 @@ import {
   navigationMenuTriggerStyle,
 } from "@/app/_components/ui/navigation-menu";
 import { Button } from "./ui/button";
+import AvatarProfile from "./avatarProfile";
 
 function NavBar() {
 
   const { data: session } = useSession()
-
-  async function logout() {
-    try {
-        await signOut()
-    } catch(error) {
-        console.log(error)
-    }
-}
 
   return (
     <div className="container z-40 bg-background">
@@ -57,7 +50,7 @@ function NavBar() {
         <nav className="flex justify-center items-center space-x-4">
           <ModeToggle />
           {
-            session ? <Button onClick={logout} variant="link" size={"sm"}>Logout</Button> : <Link href="/login"><Button variant="link" size={"sm"}>Login</Button></Link>
+            session ?<AvatarProfile /> : <Link href="/login"><Button variant="link" size={"sm"}>Login</Button></Link>
           }
         </nav>
       </div>

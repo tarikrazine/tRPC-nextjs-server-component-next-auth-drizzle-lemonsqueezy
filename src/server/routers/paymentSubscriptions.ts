@@ -47,6 +47,10 @@ export const zodToCamelCase = <T extends z.ZodTypeAny>(
   zod.transform((val) => camelcaseKeys(val) as CamelCasedPropertiesDeep<T>);
 
 export const paymentSubscriptions = router({
+  test: publicProcedure.query((ctx) => {
+    console.log("req", ctx.ctx.req);
+    return "ok";
+  }),
   getProductVariants: publicProcedure
     .input(
       z.object({
@@ -74,67 +78,5 @@ export const paymentSubscriptions = router({
       const parsedData = productVariantSchema.parse(data);
 
       return parsedData;
-    }),
-  subscriptionWebhook: publicProcedure
-    .input(subscriptionWebhookRequest)
-    .mutation(async ({ ctx, input }) => {
-      const secret = env.LEMON_SQUEEZY_SIGNING_SECRET;
-
-      const rawBody = JSON.stringify(input);
-
-      const header = headers();
-
-      const xSignature = header.get("X-Signature");
-
-      console.log("xSignature", xSignature);
-
-      const hmac = crypto.createHmac("sha256", secret);
-
-      hmac.update(rawBody);
-      const digest = hmac.digest("hex");
-
-      if (
-        !xSignature ||
-        !crypto.timingSafeEqual(
-          Buffer.from(digest, "hex"),
-          Buffer.from(xSignature, "hex"),
-        )
-      ) {
-        throw new TRPCError({
-          code: "CONFLICT",
-          message: "Invalid Signature",
-        });
-      }
-
-      const type = input.data.type;
-
-      console.log("type", type);
-
-      if (type === "subscriptions") {
-        console.log("eventName", input.meta.eventName);
-
-        if (input.meta.eventName === "subscription_created") {
-          const [insertData] = await db.insert(subscriptions).values({
-            userId: input.meta.customData.userId,
-            id: input.data.id,
-            ...input.data.attributes,
-          }).returning();
-
-          console.log(`Inserted subscription with id ${insertData.id}`);
-
-          return JSON.stringify({ status: "ok" });
-        }
-
-        if (input.meta.eventName === "subscription_updated") {
-          const [updatedData] = await db.update(subscriptions).set({
-            id: input.data.id,
-            ...input.data.attributes,
-          }).where(eq(subscriptions.id, input.data.id)).returning();
-
-          console.log(`Updated subscription with id: ${updatedData.id}`);
-
-          return JSON.stringify({ status: "ok" });
-        }
-      }
     }),
 });

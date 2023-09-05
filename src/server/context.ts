@@ -11,12 +11,9 @@ interface CreateInnerContextOptions extends Partial<CreateNextContextOptions> {
 }
 
 export async function createContextInner(opts: CreateInnerContextOptions) {
-  const req = opts.req;
-  console.log("context", req);
   return {
     drizzle: db,
     session: opts.session,
-    req,
   };
 }
 
@@ -24,7 +21,7 @@ export async function createContextInner(opts: CreateInnerContextOptions) {
  * Creates context for an incoming request
  * @link https://trpc.io/docs/context
  */
-export async function createContext() {
+export async function createContext({ req }: { req: Request }) {
   const session = await getSession({
     req: {
       headers: Object.fromEntries(headers().entries()),
@@ -33,8 +30,11 @@ export async function createContext() {
 
   const ctx = await createContextInner({ session });
 
+  console.log("ctx req", req);
+
   return {
     ...ctx,
+    req,
   };
 }
 
