@@ -14,13 +14,14 @@ export async function POST(request: Request) {
 
   const rawBody = await request.text();
 
-  console.log(rawBody);
+  console.log({ rawBody });
 
   if (!rawBody) {
     return NextResponse.json({ message: "No body" }, { status: 400 });
   }
 
   const xSignature = request.headers.get("X-Signature");
+  console.log(xSignature);
 
   const hmac = crypto.createHmac("sha256", secret);
 

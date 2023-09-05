@@ -26,6 +26,7 @@ const isAuthed = t.middleware(async ({ next, ctx }) => {
       // Infers the `session` as non-nullable
       session: ctx.session,
       drizzle: ctx.drizzle,
+      req: ctx.req,
     },
   });
 });
