@@ -4,7 +4,7 @@ import crypto from "crypto";
 
 import { PostHogClient as postHog } from "@/lib/posthog";
 import { env } from "@/env.mjs";
-import { subscriptionWebhookRequest } from "@/lib/subscriptionWebhook";
+import { subscriptionWebhookRequest } from "@/schema/lemonSqueezy/subscriptionWebhook";
 import { db } from "@/db";
 import { subscriptions } from "@/db/schema/subscriptions";
 import { eq } from "drizzle-orm";
@@ -40,26 +40,20 @@ export async function POST(request: Request) {
 
   const body = JSON.parse(rawBody);
 
-  const type = body.data.type;
+  const type = body.type;
 
   console.log("type", type);
 
   if (type === "subscriptions") {
-    const parsedBody = await subscriptionWebhookRequest.safeParseAsync(body);
+    const parsedBody = subscriptionWebhookRequest.parse(body);
 
-    if (!parsedBody.success) {
-      return NextResponse.json({
-        "message": "Can't parse body",
-      }, { status: 404 });
-    }
+    console.log("eventName", parsedBody.meta.eventName);
 
-    console.log("eventName", parsedBody.data.meta.eventName);
-
-    if (parsedBody.data.meta.eventName === "subscription_created") {
+    if (parsedBody.meta.eventName === "subscription_created") {
       const [insertData] = await db.insert(subscriptions).values({
-        userId: parsedBody.data.meta.customData.userId,
-        id: parsedBody.data.data.id,
-        ...parsedBody.data.data.attributes,
+        userId: parsedBody.meta.customData.userId,
+        id: parsedBody.data.id,
+        ...parsedBody.data.attributes,
       }).returning();
 
       console.log(`Inserted subscription with id ${insertData.id}`);
@@ -69,11 +63,11 @@ export async function POST(request: Request) {
       });
     }
 
-    if (parsedBody.data.meta.eventName === "subscription_updated") {
+    if (parsedBody.meta.eventName === "subscription_updated") {
       const [updatedData] = await db.update(subscriptions).set({
-        id: parsedBody.data.data.id,
-        ...parsedBody.data.data.attributes,
-      }).where(eq(subscriptions.id, parsedBody.data.data.id)).returning();
+        id: parsedBody.data.id,
+        ...parsedBody.data.attributes,
+      }).where(eq(subscriptions.id, parsedBody.data.id)).returning();
 
       console.log(`Updated subscription with id: ${updatedData.id}`);
 

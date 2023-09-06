@@ -1,23 +1,13 @@
-import { headers } from "next/headers";
-
 import { z, ZodEffects } from "zod";
 import camelcaseKeys from "camelcase-keys";
 import { CamelCasedPropertiesDeep } from "type-fest";
-import crypto from "crypto";
 
 import { protectedProcedure, publicProcedure, router } from "../trpc";
 import { env } from "@/env.mjs";
 import {
   ProductVariantSchema,
   productVariantSchema,
-} from "@/lib/productVariantSchema";
-import { subscriptionWebhookRequest } from "@/lib/subscriptionWebhook";
-import { PostHogClient as posthog } from "@/lib/posthog";
-import { TRPCClientError } from "@trpc/client";
-import { TRPCError } from "@trpc/server";
-import { db } from "@/db";
-import { subscriptions } from "@/db/schema/subscriptions";
-import { eq } from "drizzle-orm";
+} from "@/schema/lemonSqueezy/variantsSchema";
 
 const lemonSqueezyBaseUrl = "https://api.lemonsqueezy.com/v1";
 const lemonSqueezyApiKey = env.LEMON_SQUEEZY_API_KEY;

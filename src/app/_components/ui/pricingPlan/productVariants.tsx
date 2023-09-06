@@ -6,7 +6,7 @@ import { Session } from "next-auth";
 import { parseHTML } from "linkedom";
 import { useSession } from "next-auth/react";
 
-import { ProductVariantSchema } from "@/lib/productVariantSchema";
+import { ProductVariantSchema } from "@/schema/lemonSqueezy/variantsSchema";
 import { Button } from "../button";
 import FeaturesProductVariant from "./featuresProductVariant";
 
