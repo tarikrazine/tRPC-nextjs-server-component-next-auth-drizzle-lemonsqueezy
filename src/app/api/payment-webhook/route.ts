@@ -1,13 +1,15 @@
 import { NextResponse } from "next/server";
 
 import crypto from "crypto";
+import { eq } from "drizzle-orm";
 
-import { PostHogClient as postHog } from "@/lib/posthog";
 import { env } from "@/env.mjs";
-import { subscriptionWebhookRequest } from "@/schema/lemonSqueezy/subscriptionWebhook";
+import {
+  SubscriptionWebhookRequest,
+  subscriptionWebhookRequest,
+} from "@/schema/lemonSqueezy/subscriptionWebhook";
 import { db } from "@/db";
 import { subscriptions } from "@/db/schema/subscriptions";
-import { eq } from "drizzle-orm";
 
 export async function POST(request: Request) {
   const secret = env.LEMON_SQUEEZY_SIGNING_SECRET;
@@ -38,9 +40,9 @@ export async function POST(request: Request) {
     return NextResponse.json({ message: "Invalid Signature" }, { status: 400 });
   }
 
-  const body = JSON.parse(rawBody);
+  const body = JSON.parse(rawBody) as SubscriptionWebhookRequest;
 
-  const type = body.type;
+  const type = body.data.type;
 
   console.log("type", type);
 
