@@ -30,8 +30,6 @@ export async function createContext({ req }: { req: Request }) {
 
   const ctx = await createContextInner({ session });
 
-  console.log("ctx req", req);
-
   return {
     ...ctx,
     req,

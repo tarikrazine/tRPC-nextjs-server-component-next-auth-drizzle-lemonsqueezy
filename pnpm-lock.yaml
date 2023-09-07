@@ -154,6 +154,9 @@ dependencies:
     version: 3.22.2
 
 devDependencies:
+  '@total-typescript/ts-reset':
+    specifier: ^0.5.1
+    version: 0.5.1
   '@types/bcrypt':
     specifier: ^5.0.0
     version: 5.0.0
@@ -1629,6 +1632,10 @@ packages:
       react-dom: 18.2.0(react@18.2.0)
       use-sync-external-store: 1.2.0(react@18.2.0)
     dev: false
+
+  /@total-typescript/ts-reset@0.5.1:
+    resolution: {integrity: sha512-AqlrT8YA1o7Ff5wPfMOL0pvL+1X+sw60NN6CcOCqs658emD6RfiXhF7Gu9QcfKBH7ELY2nInLhKSCWVoNL70MQ==}
+    dev: true
 
   /@trpc/client@10.37.1(@trpc/server@10.37.1):
     resolution: {integrity: sha512-OSblNfeI0Z9ERn3usgLV2x63CwwPoNOHf1FQK85cOT7F8MNaWyEHoEv7tHUwNGJwyzKXmpU+ockZ0movzX3D0g==}

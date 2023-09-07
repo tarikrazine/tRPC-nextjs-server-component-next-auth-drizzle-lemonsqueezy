@@ -1,22 +1,20 @@
 import ProductVariants from "./productVariants";
-import { env } from "@/env.mjs";
 import { serverClient } from "@/app/_trpc/serverClient";
 import { db } from "@/db";
 import { products } from "@/db/schema/products";
+import { AllVariantsType } from "@/schema/lemonSqueezy/variantsSchema";
 
 async function PricingPlan() {
 
   const [product] = await db.select().from(products)
 
-  const { data: productVariants } = await (
+  const productVariants = await (
     await serverClient()
-  ).paymentSubscription.getProductVariants({ productId: product.id });
+  ).paymentSubscription.getProductVariants({ productId: product.id }) as AllVariantsType;
 
   if (!productVariants) {
     throw new Error("No product variants");
   }
-
-  
 
   return (
     <section className="bg-primary-foreground">
