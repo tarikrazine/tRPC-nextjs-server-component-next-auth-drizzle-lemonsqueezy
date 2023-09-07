@@ -8,8 +8,6 @@ async function PricingPlan() {
 
   const [product] = await db.select().from(products)
 
-  console.log(product)
-
   const { data: productVariants } = await (
     await serverClient()
   ).paymentSubscription.getProductVariants({ productId: product.id });
