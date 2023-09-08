@@ -67,5 +67,6 @@
     "@types/bcrypt": "^5.0.0",
     "@types/jsdom": "^21.1.2",
     "drizzle-kit": "^0.19.13"
-  }
+  },
+  "type": "module"
 }
