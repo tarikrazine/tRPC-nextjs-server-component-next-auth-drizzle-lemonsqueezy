@@ -1,15 +1,17 @@
 import "./globals.css";
+
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { headers } from "next/headers";
+
 import { Analytics } from "@vercel/analytics/react";
+import { getSession } from "next-auth/react";
 
 import TRPCProvider from "@/app/_trpc/Provider";
 import { ThemeProvider } from "@/app/_components/providers/theme-provider";
 import { cn } from "@/lib/utils";
 import NavBar from "./_components/navbar";
 import AuthProvider from "./_components/providers/AuthProvider";
-import { getSession } from "next-auth/react";
-import { headers } from "next/headers";
 
 const inter = Inter({ subsets: ["latin"] });
 
