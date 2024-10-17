@@ -1,1 +1,1 @@
-## Boilerplate tRPC next.js server components next-auth drizzle and lemonsqueezy for subscriptions
+## Boilerplate tRPC next.js server components next-auth drizzle and lemonsqueezy for subscription
